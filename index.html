@@ -176,6 +176,7 @@
                     "onEmbeddedMessagingConversationStarted",
                     () => {
                         console.log("Conversation Started");
+                        const userData = handleForm();
                         embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
                             AdditionalInformation: userData.additionalInformation,
                             BreadcrumbsTrail: userData.breadcrumbTrail,
