@@ -141,7 +141,7 @@
                 window.addEventListener("onEmbeddedMessagingReady", () => {
                     console.log("onEmbeddedMessagingReady event");
                     console.log("SET PRE CHAT...");
-                    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                    /*embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
                         AdditionalInformation: userData.additionalInformation,
                         BreadcrumbsTrail: userData.breadcrumbTrail,
                         CacheCookies: userData.cacheCookies,
@@ -161,7 +161,7 @@
                         UserApp: userData.userApp,
                         UserLoginStatus: userData.userLoginStatus,
                         Username: userData.username,
-                    });
+                    });*/
                 });
 
                 window.addEventListener(
@@ -176,6 +176,27 @@
                     "onEmbeddedMessagingConversationStarted",
                     () => {
                         console.log("Conversation Started");
+                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                            AdditionalInformation: userData.additionalInformation,
+                            BreadcrumbsTrail: userData.breadcrumbTrail,
+                            CacheCookies: userData.cacheCookies,
+                            Category: userData.category,
+                            UUID: userData.uuid,
+                            Country: userData.country,
+                            Email: userData.email,
+                            Entity: userData.entity,
+                            FirstName: userData.firstName,
+                            Issue: userData.issue,
+                            Label: userData.label,
+                            Origin: userData.origin,
+                            Language: userData.language,
+                            LastName: userData.lastName,
+                            Product: userData.product,
+                            Question: userData.question,
+                            UserApp: userData.userApp,
+                            UserLoginStatus: userData.userLoginStatus,
+                            Username: userData.username,
+                        });
                     }
                 );
 
