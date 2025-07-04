@@ -170,12 +170,20 @@
                         console.log("Chat Closed");
                         const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
                         console.log(payload);
-                        messagingSessionId = payload.recordId;
-			console.log( 'Messaging Session ID:', messagingSessionId );
                         //window.location.href = "post-chat.html";
                     }
                 );
-
+		    
+                window.addEventListener(
+                    "onEmbeddedMessageSent",
+                    (event) => {
+                        console.log("Message Sent");
+                        const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
+                        console.log(payload);
+                        //window.location.href = "post-chat.html";
+                    }
+                );
+		
                 window.addEventListener(
                     "onEmbeddedMessagingConversationStarted",
                     () => {
