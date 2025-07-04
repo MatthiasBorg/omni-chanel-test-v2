@@ -141,7 +141,7 @@
                 window.addEventListener("onEmbeddedMessagingReady", () => {
                     console.log("onEmbeddedMessagingReady event");
                     console.log("SET PRE CHAT...");
-                    /*embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
                         AdditionalInformation: userData.additionalInformation,
                         BreadcrumbsTrail: userData.breadcrumbTrail,
                         CacheCookies: userData.cacheCookies,
@@ -161,12 +161,13 @@
                         UserApp: userData.userApp,
                         UserLoginStatus: userData.userLoginStatus,
                         Username: userData.username,
-                    });*/
+                    });
                 });
 
                 window.addEventListener(
                     "onEmbeddedMessagingConversationClosed",
                     (event) => {
+			console.log(event);
                         console.log("Chat Closed");
                         const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
                         console.log(payload);
@@ -178,38 +179,28 @@
                     "onEmbeddedMessageSent",
                     (event) => {
                         console.log("Message Sent");
+			console.log(event);
                         const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
                         console.log(payload);
                         //window.location.href = "post-chat.html";
                     }
                 );
-		
+		    
+                window.addEventListener(
+                    "onEmbeddedMessagingPreChatSubmitted",
+                    (event) => {
+                        console.log("Pre Chat Submitted");
+			console.log(event);
+                        const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
+                        console.log(payload);
+                        //window.location.href = "post-chat.html";
+                    }
+                );
+		    
                 window.addEventListener(
                     "onEmbeddedMessagingConversationStarted",
                     () => {
                         console.log("Conversation Started");
-                        const userData = handleForm();
-                        embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-                            AdditionalInformation: userData.additionalInformation,
-                            BreadcrumbsTrail: userData.breadcrumbTrail,
-                            CacheCookies: userData.cacheCookies,
-                            Category: userData.category,
-                            UUID: userData.uuid,
-                            Country: userData.country,
-                            Email: userData.email,
-                            Entity: userData.entity,
-                            FirstName: userData.firstName,
-                            Issue: userData.issue,
-                            Label: userData.label,
-                            Origin: userData.origin,
-                            Language: userData.language,
-                            LastName: userData.lastName,
-                            Product: userData.product,
-                            Question: userData.question,
-                            UserApp: userData.userApp,
-                            UserLoginStatus: userData.userLoginStatus,
-                            Username: userData.username,
-                        });
                     }
                 );
 
