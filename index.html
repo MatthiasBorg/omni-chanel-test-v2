@@ -167,8 +167,8 @@
                 window.addEventListener(
                     "onEmbeddedMessagingConversationClosed",
                     (event) => {
-			console.log(event);
                         console.log("Chat Closed");
+			console.log(event);
                         const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
                         console.log(payload);
                         //window.location.href = "post-chat.html";
@@ -199,8 +199,17 @@
 		    
                 window.addEventListener(
                     "onEmbeddedMessagingConversationStarted",
-                    () => {
+                    (event) => {
                         console.log("Conversation Started");
+			console.log(event);
+                    }
+                );
+
+		window.addEventListener(
+                    "onEmbeddedMessagingConversationRouted",
+                    (event) => {
+                        console.log("Conversation Routed");
+			console.log(event);
                     }
                 );
 
