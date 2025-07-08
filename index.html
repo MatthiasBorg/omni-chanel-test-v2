@@ -171,6 +171,9 @@
 			console.log(event);
                         const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
                         console.log(payload);
+			embeddedservice_bootstrap.userVerificationAPI.clearSession().then(() => {
+			  embeddedservice_bootstrap.utilAPI.removeAllComponents()
+			});
                         //window.location.href = "post-chat.html";
                     }
                 );
