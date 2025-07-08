@@ -156,6 +156,8 @@
             embeddedservice_bootstrap.utilAPI.showChatButton();
         }
 
+        let sessionCleared = false;
+
         function initEmbeddedMessaging() {
             try {
                 //const userData = handleForm();
@@ -163,9 +165,12 @@
                 window.addEventListener("onEmbeddedMessagingReady", () => {
                     console.log("onEmbeddedMessagingReady event");
                     console.log("Clearing Old Session!");
-                    embeddedservice_bootstrap.userVerificationAPI.clearSession().then(() => {
-                        console.log("Clearing Old Session DONE!");
-                    });
+                    if (!sessionCleared) {
+                        embeddedservice_bootstrap.userVerificationAPI.clearSession().then(() => {
+                            console.log("Clearing Old Session DONE!");
+                        });
+                        sessionCleared = true;
+                    }
                 });
 
                 window.addEventListener(
