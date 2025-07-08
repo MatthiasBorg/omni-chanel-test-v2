@@ -100,7 +100,7 @@
             </div>
 
             <div class="d-flex gap-2">
-                <button type="button" class="btn btn-success" onclick="initEmbeddedMessaging()">
+                <button type="button" class="btn btn-success" onclick="startChat()">
                     Start Chat
                 </button>
             </div>
@@ -132,35 +132,39 @@
             const userData = handleForm(); // Get the form data with extra fields
             console.log("Starting chat with data:", userData);
             // Add your actual chat initialization logic here
-            alert("Chat started (placeholder)");
+            embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                AdditionalInformation: userData.additionalInformation,
+                BreadcrumbsTrail: userData.breadcrumbTrail,
+                CacheCookies: userData.cacheCookies,
+                Category: userData.category,
+                UUID: userData.uuid,
+                Country: userData.country,
+                Email: userData.email,
+                Entity: userData.entity,
+                FirstName: userData.firstName,
+                Issue: userData.issue,
+                Label: userData.label,
+                Origin: userData.origin,
+                Language: userData.language,
+                LastName: userData.lastName,
+                Product: userData.product,
+                Question: userData.question,
+                UserApp: userData.userApp,
+                UserLoginStatus: userData.userLoginStatus,
+                Username: userData.username,
+            });
+            embeddedservice_bootstrap.utilAPI.showChatButton();
         }
+
         function initEmbeddedMessaging() {
             try {
-                const userData = handleForm();
+                //const userData = handleForm();
 
                 window.addEventListener("onEmbeddedMessagingReady", () => {
                     console.log("onEmbeddedMessagingReady event");
-                    console.log("SET PRE CHAT...");
-                    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-                        AdditionalInformation: userData.additionalInformation,
-                        BreadcrumbsTrail: userData.breadcrumbTrail,
-                        CacheCookies: userData.cacheCookies,
-                        Category: userData.category,
-                        UUID: userData.uuid,
-                        Country: userData.country,
-                        Email: userData.email,
-                        Entity: userData.entity,
-                        FirstName: userData.firstName,
-                        Issue: userData.issue,
-                        Label: userData.label,
-                        Origin: userData.origin,
-                        Language: userData.language,
-                        LastName: userData.lastName,
-                        Product: userData.product,
-                        Question: userData.question,
-                        UserApp: userData.userApp,
-                        UserLoginStatus: userData.userLoginStatus,
-                        Username: userData.username,
+                    console.log("Clearing Old Session!");
+                    embeddedservice_bootstrap.userVerificationAPI.clearSession().then(() => {
+                        console.log("Clearing Old Session DONE!");
                     });
                 });
 
@@ -168,69 +172,94 @@
                     "onEmbeddedMessagingConversationClosed",
                     (event) => {
                         console.log("Chat Closed");
-			console.log(event);
-                        const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
+                        console.log(event);
+                        const payload = JSON.parse(
+                            event.detail.conversationEntry.entryPayload
+                        );
                         console.log(payload);
-			embeddedservice_bootstrap.userVerificationAPI.clearSession().then(() => {
-			  embeddedservice_bootstrap.utilAPI.removeAllComponents()
-			});
+                        embeddedservice_bootstrap.userVerificationAPI
+                            .clearSession()
+                            .then(() => {
+                                embeddedservice_bootstrap.utilAPI.removeAllComponents();
+                            });
                         //window.location.href = "post-chat.html";
                     }
                 );
-		    
-                window.addEventListener(
-                    "onEmbeddedMessageSent",
-                    (event) => {
-                        console.log("Message Sent");
-			console.log(event);
-                        const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
-                        console.log(payload);
-                        //window.location.href = "post-chat.html";
-                    }
-                );
-		    
+
+                window.addEventListener("onEmbeddedMessageSent", (event) => {
+                    console.log("Message Sent");
+                    console.log(event);
+                    const payload = JSON.parse(
+                        event.detail.conversationEntry.entryPayload
+                    );
+                    console.log(payload);
+                    //window.location.href = "post-chat.html";
+                });
+
                 window.addEventListener(
                     "onEmbeddedMessagingPreChatSubmitted",
                     (event) => {
                         console.log("Pre Chat Submitted");
-			console.log(event);
-                        const payload = JSON.parse( event.detail.conversationEntry.entryPayload );
+                        console.log(event);
+                        const payload = JSON.parse(
+                            event.detail.conversationEntry.entryPayload
+                        );
                         console.log(payload);
                         //window.location.href = "post-chat.html";
                     }
                 );
-		    
+
                 window.addEventListener(
                     "onEmbeddedMessagingConversationStarted",
                     (event) => {
                         console.log("Conversation Started");
-			console.log(event);
+                        console.log(event);
                     }
                 );
 
-		window.addEventListener(
+                window.addEventListener(
                     "onEmbeddedMessagingConversationRouted",
                     (event) => {
                         console.log("Conversation Routed");
-			console.log(event);
+                        console.log(event);
                     }
                 );
 
-                embeddedservice_bootstrap.settings.language = "en-US"; // For example, enter 'en' or 'en-US' or de
+                //embeddedservice_bootstrap.settings.language = "en-US"; // For example, enter 'en' or 'en-US' or de
 
-                embeddedservice_bootstrap.init(
-                    "00DQI00000D3IRA", // HC: 00DQI00000D3IRA; TF: 00DQJ0000059kiH
-                    "OmniChannelTest", // HC: OmniChannelTest; TF: OmniChannelTest
-                    "https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474", // HC: https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474; TF: https://tipico--tipicofull.sandbox.my.site.com/ESWOmniChannelTest1750138429514
-                    {
-                        scrt2URL:
-                            "https://tipico--helpcentre.sandbox.my.salesforce-scrt.com", // HC: https://tipico--helpcentre.sandbox.my.salesforce-scrt.com; TF: https://tipico--tipicofull.sandbox.my.salesforce-scrt.com
-                    }
-                );
+                //embeddedservice_bootstrap.init(
+                //    "00DQI00000D3IRA", // HC: 00DQI00000D3IRA; TF: 00DQJ0000059kiH
+                //    "OmniChannelTest", // HC: OmniChannelTest; TF: OmniChannelTest
+                //    "https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474", // HC: https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474; TF: https://tipico--tipicofull.sandbox.my.site.com/ESWOmniChannelTest1750138429514
+                //    {
+                //        scrt2URL:
+                //            "https://tipico--helpcentre.sandbox.my.salesforce-scrt.com", // HC: https://tipico--helpcentre.sandbox.my.salesforce-scrt.com; TF: https://tipico--tipicofull.sandbox.my.salesforce-scrt.com
+                //    }
+                //);
             } catch (err) {
                 console.error("Error loading Embedded Messaging: ", err);
             }
         }
+
+        function loadChat() {
+            embeddedservice_bootstrap.settings.hideChatButtonOnLoad = true;
+            embeddedservice_bootstrap.settings.language = "en-US"; // For example, enter 'en' or 'en-US' or de
+
+            embeddedservice_bootstrap.init(
+                "00DQI00000D3IRA", // HC: 00DQI00000D3IRA; TF: 00DQJ0000059kiH
+                "OmniChannelTest", // HC: OmniChannelTest; TF: OmniChannelTest
+                "https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474", // HC: https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474; TF: https://tipico--tipicofull.sandbox.my.site.com/ESWOmniChannelTest1750138429514
+                {
+                    scrt2URL:
+                        "https://tipico--helpcentre.sandbox.my.salesforce-scrt.com", // HC: https://tipico--helpcentre.sandbox.my.salesforce-scrt.com; TF: https://tipico--tipicofull.sandbox.my.salesforce-scrt.com
+                }
+            );
+        }
+        
+        window.onload = function() {
+            initEmbeddedMessaging();
+            loadChat();
+        };
     </script>
     <script type="text/javascript"
         src="https://tipico--helpcentre.sandbox.my.site.com/ESWOmniChannelTest1749361605474/assets/js/bootstrap.min.js"></script>
